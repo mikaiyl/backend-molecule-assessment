@@ -17,9 +17,14 @@ read_file(FILENAME): return array of lists of four string.
 
 
 def read_file(filename):
-    # return list of lists of four strings 12 chars long
-    pass
+    molecule_list = []
+    file = open(filename, 'r')
+    for line in file:
+        if len(line) > 1:
+            molecule_list.append(line[:-1])
+    print molecule_list
 
+read_file('sampleinput.txt')
 
 '''
 create_map(LIST OF FOUR STRINGS)
@@ -27,9 +32,8 @@ create_map(LIST OF FOUR STRINGS)
 
 
 def create_board():
-    # board = [ i for i in [ range(10) for j in range(10) ] ]
-    # return board
-    pass
+    board = [ i for i in [ range(10) for j in range(10) ] ]
+    return board
 
 
 def add_list_to_board(index, charlist, board):
