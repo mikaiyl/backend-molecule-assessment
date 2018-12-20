@@ -22,9 +22,8 @@ def read_file(filename):
     for line in file:
         if len(line) > 1:
             molecule_list.append(line[:-1])
-    print molecule_list
+    return molecule_list
 
-read_file('sampleinput.txt')
 
 '''
 create_map(LIST OF FOUR STRINGS)
@@ -32,7 +31,7 @@ create_map(LIST OF FOUR STRINGS)
 
 
 def create_board():
-    board = [ i for i in [ range(10) for j in range(10) ] ]
+    board = [i for i in [range(10) for j in range(10)]]
     return board
 
 
@@ -61,3 +60,8 @@ def match_string(a, b, c, d):
 
 
 '''DISPLAY RESULT'''
+
+
+if __name__ == '__main__':
+    for line in read_file('sampleinput.txt'):
+        print line
