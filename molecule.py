@@ -95,12 +95,13 @@ def find_space_on_board(charlist, board, buffer = []): # noqa
     # index 0-11 map to side ascending 12-23 map to columns across
     # return new board with added list if list fits else none
     match_tuples = []
+    buffer += [ i-1 for i in buffer ] + [ i+1 for i in buffer ]
+
     if len(charlist) is not 12:
         print '@add_list_to_board, charlist is not 12 chars'
         return None
 
     for index in range(1, 23):
-        print index
         if index in buffer:
             pass
         elif index > 0 and index < 11:
@@ -161,7 +162,7 @@ def get_first_degree(a, b, c, d):
             print('i2: {}'.format(i2))
             for i1 in ia2:
                 # matches = {}
-                b2 = add_string_to_board(int(i1) + 12, s2, add_string_to_board(int(i2), s1, create_board())) # noqa
+                b2 = add_string_to_board(int(i1), s2, add_string_to_board(int(i2), s1, create_board())) # noqa
                 print('\nb2\n\n')
                 print_map(b2)
                 print('s2: {}, items: {}'.format(s2, items))
@@ -177,7 +178,7 @@ def get_first_degree(a, b, c, d):
                             print('i1: {}\ni2: {}\ni3: {}\n'.format(i1, i2, i3)) # noqa
                             print('s1: {}\ns2: {}\ns3: {}\n'.format(s1, s2, s3)) # noqa
                             s4 = filter(lambda e: e not in [s2, s3], items)[0]
-                            sp2 = find_space_on_board(s4, b3) # noqa
+                            sp2 = find_space_on_board(s4, b3, [i1 + 12, i2, i3] ) # noqa
                             for i4, va2 in sp2:
                                 for offset0 in va2:
                                     b4 = add_string_to_board(i4, s4, b3, offset0) # noqa
