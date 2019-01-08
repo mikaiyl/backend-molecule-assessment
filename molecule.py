@@ -35,7 +35,7 @@ def read_file(filename):
 
 
 '''
-create_map(LIST OF FOUR STRINGS)
+create_rectangle_list(): Returns list of rectangle heights and widths
 '''
 
 
@@ -48,20 +48,34 @@ match_strings( LIST OF FOUR STRINGS ): returns number of possible matches
 '''
 
 
-def match_string(a, b, c, d):
-    # call create_board() and start with a in position one
-    # loop through position for a
-        # apply each ramaining items to position two
-        # loop though positions for b
-        # save matching positions to queue if they exist
-
-    # filter through queue and check for position three
-    # filter through queue and check for position four
-    # for items still in queue, tally space in middle and return largest
-    pass
+def match_string( dims, top, bottom, left, right):
+    h, w = dims
+    for h0 in range(1, 12 - h):
+        for w0 in range(1, 12 - w):
+            if top[w0] is not left[h0]:
+                continue
+            for h1 in range(1, 12 - h):
+                if top[w0+w-1] is not right[h1]:
+                    continue
+                for w1 in range(1, 12 - w):
+                    if bottom[w1] is left[h0+h-1] and bottom[w1+w-1] is right[h1+h-1]:
+                        return ( h - 2 ) * ( w - 2 )
+    return 0
 
 
 '''DISPLAY RESULT'''
+
+
+def check_set(sentence):
+    # swap dims
+    dims = sorted(create_rectangle_list(), reverse=True)
+    for i in range(0,4):
+        new_dims = dims[i:] + dims[:i] 
+        for dim in new_dims:
+            result = match_string(dim, *sentence)
+            if result > 0:
+                return result
+    return result
 
 
 if __name__ == '__main__':
