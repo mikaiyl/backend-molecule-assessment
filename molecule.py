@@ -4,7 +4,7 @@
 
 import re # noqa
 import argparse # noqa
-
+import itertools
 
 '''ARGPARSE'''
 
@@ -67,15 +67,21 @@ def match_string(dims, top, bottom, left, right):
 '''DISPLAY RESULT'''
 
 
+def wrap_permutations(dims, array):
+    perms = itertools.permutations(array, 4)
+    results = []
+    for perm in perms:
+        results.append(match_string(dims, *list(perm)))
+    return max(results)
+
+
 def check_set(sentence):
     # swap dims
     dims = sorted(create_rectangle_list(), key=lambda x: x[0]*x[1], reverse=True) # noqa
-    for i in range(0, 4):
-        new_arr = sentence[i:] + sentence[:i]
-        for d in dims:
-            result = match_string(d, *new_arr)
-            if result > 0:
-                return result
+    for d in dims:
+        result = wrap_permutations(d, sentence)
+        if result > 0:
+            return result
     return result
 
 
