@@ -4,7 +4,6 @@
 
 import re # noqa
 import argparse # noqa
-import copy
 
 
 '''ARGPARSE'''
@@ -48,7 +47,7 @@ match_strings( LIST OF FOUR STRINGS ): returns number of possible matches
 '''
 
 
-def match_string( dims, top, bottom, left, right):
+def match_string(dims, top, bottom, left, right):
     h, w = dims
     for h0 in range(1, 12 - h):
         for w0 in range(1, 12 - w):
@@ -58,8 +57,10 @@ def match_string( dims, top, bottom, left, right):
                 if top[w0+w-1] is not right[h1]:
                     continue
                 for w1 in range(1, 12 - w):
-                    if bottom[w1] is left[h0+h-1] and bottom[w1+w-1] is right[h1+h-1]:
-                        return ( h - 2 ) * ( w - 2 )
+                    if bottom[w1] is left[h0+h-1] and bottom[w1+w-1] is right[h1+h-1]: # noqa
+                        #print(h0, w0, h1, w1)
+                        #print(dims, top, bottom, left, right)
+                        return (h - 2) * (w - 2)
     return 0
 
 
@@ -68,16 +69,22 @@ def match_string( dims, top, bottom, left, right):
 
 def check_set(sentence):
     # swap dims
-    dims = sorted(create_rectangle_list(), reverse=True)
-    for i in range(0,4):
-        new_dims = dims[i:] + dims[:i] 
-        for dim in new_dims:
-            result = match_string(dim, *sentence)
+    dims = sorted(create_rectangle_list(), key=lambda x: x[0]*x[1], reverse=True) # noqa
+    for i in range(0, 4):
+        new_arr = sentence[i:] + sentence[:i]
+        for d in dims:
+            result = match_string(d, *new_arr)
             if result > 0:
                 return result
     return result
 
 
+def main():
+    strings = read_file('sampleinput.txt')
+    for i in range(0, len(strings), 4):
+        four = strings[i:i+4]
+        print(check_set(four))
+
+
 if __name__ == '__main__':
-    for line in read_file('sampleinput.txt'):
-        print line
+    main()
